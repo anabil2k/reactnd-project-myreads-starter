@@ -1,8 +1,8 @@
 import React,{Component} from 'react'
-import CurrentlyReadingComp from './components/CurrentlyReadingComp'
-import WantToReadComp from './components/WantToReadComp'
-import ReadComp from './components/ReadComp'
 import SearchComp from './components/SearchComp'
+import HomeComp from './components/HomeComp'
+import WrongRouteComp from './components/WrongRouteComp'
+import {BrowserRouter,Route, Switch} from 'react-router-dom'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
 
@@ -19,61 +19,18 @@ class BooksApp extends React.Component {
 
   render() {
     return (
+      <BrowserRouter>
       <div className="app">
-        {this.state.showSearchPage ? (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
-              <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author"/>
-
-              </div>
-            </div>
-            <div className="search-books-results">
-                <SearchComp />
-            </div>
-          </div>
-        ) : (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
-              <div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Currently Reading</h2>
-                  <div className="bookshelf-books">
-                    <CurrentlyReadingComp />
-                  </div>
-                </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Want to Read</h2>
-                  <div className="bookshelf-books">
-                    <WantToReadComp />
-                  </div>
-                </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Read</h2>
-                  <div className="bookshelf-books">
-                    <ReadComp />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="open-search">
-              <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
-            </div>
-          </div>
-        )}
+        <Switch>
+        <Route exact path="/" component={HomeComp} />
+        <Route path="/search" component={SearchComp} />
+        <Route path="/:dynamic" component={WrongRouteComp} />
+        </Switch>
+    
+    {/*    {this.state.showSearchPage ? (
+          <SearchComp />) : <HomeComp />} */}
       </div>
+      </BrowserRouter>
     )
   }
 }

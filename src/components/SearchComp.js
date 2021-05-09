@@ -1,10 +1,23 @@
 import React, { Component } from 'react'
+import SearchResult from './SearchResult'
+import '../App.css'
+import * as BooksAPI from '../BooksAPI'
+class SearchComp extends React.Component{
+    state={items:[
+        {bookId:'1', bookTitle:'JS Guide', bookAuthors:'Ahmed Nabil', status:'none'},
+        {bookId:'2', bookTitle:'C# Guide', bookAuthors:'Omar Nabil', status:'none'},
+        {bookId:'3', bookTitle:'React Guide', bookAuthors:'Mayar Nabil', status:'none'}
+      ]}
+      handleChange=(e)=>{
+        BooksAPI.search(e.target.value)
+        console.log("data.books")
 
-/*  class SearchComp extends React.Componenet{
-    render()*/
-    function SearchComp(){
+      }
+     // resultedItems=this.state.items
+    render(){
+   // function SearchComp(){
+   // console.log(this.state.bookId)
         return(
-
             <div className="search-books">
             <div className="search-books-bar">
               <button className="close-search" onClick={() => window.location.href='/'}>Close</button>
@@ -17,17 +30,20 @@ import React, { Component } from 'react'
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by title or author"/>
+                <input type="text" placeholder="Search by title or author" onChange={this.handleChange}/>
 
               </div>
             </div>
+
+
             <div className="search-books-results">
-            <ol className="books-grid">
-   
-   </ol>
+           
+              
+<SearchResult resultedItems={this.state.items}/>
+  
             </div>
           </div>
         
 
-)}
+)}}
 export default SearchComp

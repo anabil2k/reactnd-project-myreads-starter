@@ -23,7 +23,7 @@ class BookComp extends React.Component{
             <li key={this.props.id}>
             <div className="book">
               <div className="book-top">
-                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.imageLinks.thumbnail})` }}></div>
+                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.imageLinks ? this.props.imageLinks.thumbnail : "https://via.placeholder.com/128x192/FFFF00/000000?text=X"})` }}></div>
                 <div className="book-shelf-changer">
                   <select onChange={this.handleStatusChange} value={this.props.shelf}>
                     <option value="move" disabled>Move to...</option>

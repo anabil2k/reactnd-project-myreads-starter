@@ -3,6 +3,7 @@ import SearchResult from './SearchResult'
 import '../App.css'
 import * as BooksAPI from '../BooksAPI'
 import {Link} from 'react-router-dom'
+import BookComp from './BookComp'
 class SearchComp extends React.Component{
     state={items:[
         {bookId:'1', bookTitle:'JS Guide', bookAuthors:'Ahmed Nabil', status:'none'},
@@ -17,6 +18,17 @@ class SearchComp extends React.Component{
         this.setState({searchQuery:e.target.value})
        const searchResult= await BooksAPI.search(e.target.value)
         console.log(searchResult)
+        //to handle notfound books 
+        if(searchResult.error){
+
+          console.log("No Books Found")
+          
+          this.setState({searchResult:[]})
+        }
+        else{
+          console.log("Books Found")
+          this.setState({searchResult})
+        }
 
       }
       catch(error){console.log(error)}
@@ -46,10 +58,10 @@ class SearchComp extends React.Component{
 
 
             <div className="search-books-results">
-           
-              
-<SearchResult resultedItems={this.state.items}/>
-  
+            <ol className="books-grid">
+            {this.state.searchResult.map(book => <BookComp key={book.id} {...book} updateBook={this.props.updateBook} />)}
+{/* <SearchResult resultedItems={this.state.items}/> */}
+  </ol>
             </div>
           </div>
         

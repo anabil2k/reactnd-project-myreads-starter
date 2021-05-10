@@ -8,12 +8,19 @@ class SearchComp extends React.Component{
         {bookId:'1', bookTitle:'JS Guide', bookAuthors:'Ahmed Nabil', status:'none'},
         {bookId:'2', bookTitle:'C# Guide', bookAuthors:'Omar Nabil', status:'none'},
         {bookId:'3', bookTitle:'React Guide', bookAuthors:'Mayar Nabil', status:'none'}
-      ]}
+      ],
+    searchQuery:"",
+    searchResult:[]
+    }
       handleChange=async (e)=>{
+        try{
+        this.setState({searchQuery:e.target.value})
        const searchResult= await BooksAPI.search(e.target.value)
         console.log(searchResult)
 
       }
+      catch(error){console.log(error)}
+    }
      // resultedItems=this.state.items
     render(){
    // function SearchComp(){

@@ -2,15 +2,16 @@ import React, { Component } from 'react'
 import SearchResult from './SearchResult'
 import '../App.css'
 import * as BooksAPI from '../BooksAPI'
+import {Link} from 'react-router-dom'
 class SearchComp extends React.Component{
     state={items:[
         {bookId:'1', bookTitle:'JS Guide', bookAuthors:'Ahmed Nabil', status:'none'},
         {bookId:'2', bookTitle:'C# Guide', bookAuthors:'Omar Nabil', status:'none'},
         {bookId:'3', bookTitle:'React Guide', bookAuthors:'Mayar Nabil', status:'none'}
       ]}
-      handleChange=(e)=>{
-        BooksAPI.search(e.target.value)
-        console.log("data.books")
+      handleChange=async (e)=>{
+       const searchResult= await BooksAPI.search(e.target.value)
+        console.log(searchResult)
 
       }
      // resultedItems=this.state.items
@@ -20,7 +21,8 @@ class SearchComp extends React.Component{
         return(
             <div className="search-books">
             <div className="search-books-bar">
-              <button className="close-search" onClick={() => window.location.href='/'}>Close</button>
+              {/* <button className="close-search" onClick={() => window.location.href='/'}>Close</button> */}
+              <Link to="/" className="close-search" >Close</Link>
               <div className="search-books-input-wrapper">
                 {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.

@@ -4,21 +4,53 @@ import WantToReadComp from './WantToReadComp'
 import ReadComp from './ReadComp'
 import {Link} from 'react-router-dom'
 import * as BooksAPI from '../BooksAPI'
+import TitleComp from './TitleComp'
+import ShelfComp from './ShelfComp'
 
 class HomeComp extends React.Component{
   state={
 list:[],
 currentlyReadingList:[],
 wantToReadList:[],
-readList:[]
+readList:[],
+addBooks: list =>{
+  const currentlyReadingBooks=list.filter((item) => item.shelf ==="currentlyReading")
+  const wantToReadBooks=list.filter((item) => item.shelf==="wantToRead")
+  const readBooks=list.filter((item) => item.shelf==="read")
+ this.setState({list:list})
+    this.setState({currentlyReadingList:currentlyReadingBooks})
+    this.setState({wantToReadList:wantToReadBooks})
+    this.setState({readList:readBooks})
+// this.setState({list,currentlyReadingBooks,wantToReadBooks,readBooks})
+}
+,
+updateBook:(book,newShelf,allShelves) =>{
+console.log(newShelf)
+const newBooks=this.state.list.map(allBooks =>{
+  const foundID=allShelves[newShelf].find(
+    bookID=>bookID === allBooks.id
+  );
+  if (foundID){allBooks.shelf=newShelf;}
+  return allBooks;})
+ // this.state.addBooks(newBooks)
+ const currentlyReadingBooks=newBooks.filter((item) => item.shelf ==="currentlyReading")
+  const wantToReadBooks=newBooks.filter((item) => item.shelf==="wantToRead")
+  const readBooks=newBooks.filter((item) => item.shelf==="read")
+ this.setState({list:newBooks})
+    this.setState({currentlyReadingList:currentlyReadingBooks})
+    this.setState({wantToReadList:wantToReadBooks})
+    this.setState({readList:readBooks})
 
-  }
+}}
+
+
+  
   async componentDidMount(){
     try{
       const books=await BooksAPI.getAll()
       const currentlyReadingBooks=books.filter((item) => item.shelf ==="currentlyReading")
-const wantToReadBooks=books.filter((item) => item.shelf=="wantToRead")
-    const readBooks=books.filter((item) => item.shelf=="read")
+    const wantToReadBooks=books.filter((item) => item.shelf==="wantToRead")
+    const readBooks=books.filter((item) => item.shelf==="read")
     this.setState({list:books})
     this.setState({currentlyReadingList:currentlyReadingBooks})
     this.setState({wantToReadList:wantToReadBooks})
@@ -51,33 +83,17 @@ console.log(books)
       console.log(this.state.list,this.state.currentlyReadingList,this.state.wantToReadList,this.state.readList)
         return(
     <div className="list-books">
-      <div className="list-books-title">
-        <h1>MyReads</h1>
-      </div>
+ <TitleComp title="MyReads" />
       <div className="list-books-content">
         <div>
-          <div className="bookshelf">
-            <h2 className="bookshelf-title">Currently Reading</h2>
-            <div className="bookshelf-books">
-              <CurrentlyReadingComp list={this.state.currentlyReadingList}/>
-            </div>
-          </div>
-          <div className="bookshelf">
-            <h2 className="bookshelf-title">Want to Read</h2>
-            <div className="bookshelf-books">
-              <WantToReadComp list={this.state.wantToReadList}/>
-            </div>
-          </div>
-          <div className="bookshelf">
-            <h2 className="bookshelf-title">Read</h2>
-            <div className="bookshelf-books">
-              <ReadComp list={this.state.readList}/>
-            </div>
-          </div>
+          <ShelfComp shelfName="Currently Reading" list={this.state.currentlyReadingList} updateBook={this.state.updateBook}/>
+          <ShelfComp shelfName="Want to Read" list={this.state.wantToReadList} updateBook={this.state.updateBook}/>
+          <ShelfComp shelfName="Read" list={this.state.readList} updateBook={this.state.updateBook}/>
         </div>
       </div>
       <div className="open-search">
-        <button onClick={() => window.location.href='/search'}>Add a book</button>
+        {/* <button onClick={() => window.location.href='/search'}>Add a book</button> */}
+        <Link to="/search" className="open-search">Add a Book</Link>
       </div>
     </div>
  )}}

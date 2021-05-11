@@ -10,12 +10,13 @@ class BooksApp extends React.Component {
  
   render() {
     return (
+      //To select which component needs to be shown depending on the URL
       <BrowserRouter>
       <div className="app">
         <Switch>
         <Route exact path="/" component={HomeComp} />
         <Route path="/search" component={SearchComp} />
-        {/* to handle wrong routes */}
+        {/* to handle wrong typed routes */}
         <Route path="/:dynamic" component={WrongRouteComp} />
         </Switch>
       </div>

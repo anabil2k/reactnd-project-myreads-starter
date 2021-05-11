@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import CurrentlyReadingComp from './CurrentlyReadingComp'
-import WantToReadComp from './WantToReadComp'
-import ReadComp from './ReadComp'
+//import CurrentlyReadingComp from './useless redesigned CurrentlyReadingComp'
+//import WantToReadComp from './useless redesigned WantToReadComp'
+//import ReadComp from './useless redesigned ReadComp'
 import {Link} from 'react-router-dom'
 import * as BooksAPI from '../BooksAPI'
 import TitleComp from './TitleComp'
@@ -13,26 +13,15 @@ list:[],
 currentlyReadingList:[],
 wantToReadList:[],
 readList:[],
-addBooks: list =>{
-  const currentlyReadingBooks=list.filter((item) => item.shelf ==="currentlyReading")
-  const wantToReadBooks=list.filter((item) => item.shelf==="wantToRead")
-  const readBooks=list.filter((item) => item.shelf==="read")
- this.setState({list:list})
-    this.setState({currentlyReadingList:currentlyReadingBooks})
-    this.setState({wantToReadList:wantToReadBooks})
-    this.setState({readList:readBooks})
-// this.setState({list,currentlyReadingBooks,wantToReadBooks,readBooks})
-}
-,
+// To update shelves by moving books between Shelves 
 updateBook:(book,newShelf,allShelves) =>{
-console.log(newShelf)
-const newBooks=this.state.list.map(allBooks =>{
+const newBooks=this.state.list.map(items =>{
   const foundID=allShelves[newShelf].find(
-    bookID=>bookID === allBooks.id
-  );
-  if (foundID){allBooks.shelf=newShelf;}
-  return allBooks;})
- // this.state.addBooks(newBooks)
+    bookID=>bookID === items.id
+  )
+  if (foundID){items.shelf=newShelf}
+  return items})
+ // Adding the new Books to their corresponding shelves
  const currentlyReadingBooks=newBooks.filter((item) => item.shelf ==="currentlyReading")
   const wantToReadBooks=newBooks.filter((item) => item.shelf==="wantToRead")
   const readBooks=newBooks.filter((item) => item.shelf==="read")
@@ -44,7 +33,7 @@ const newBooks=this.state.list.map(allBooks =>{
 }}
 
 
-  
+  //To ensure that every book would be in its correct shelf when opening the home page
   async componentDidMount(){
     try{
       const books=await BooksAPI.getAll()
@@ -61,24 +50,7 @@ console.log(books,currentlyReadingBooks,wantToReadBooks,readBooks)
       console.log(error)
     }
   }
-  /*componentDidMount(){
-  
-     const books=BooksAPI.getAll()
-     this.setState({allBooks:books})
-    //const currentlyReadingBooks=Object.values(books).filter((item) => item.shelf ==="currentlyReading")
-    //console.log(currentlyReadingBooks) 
 
-console.log(books)
-    //const currentlyReadingBooks=allBooks.filter((item) => item.shelf ="currentlyReading")
-    //const wantToReadBooks=allBooks.filter((book) => book.shelf=="wantToRead")
-    //const readBooks=allBooks.filter((book) => book.shelf=="read")
-    const currentlyReadingBooks=books.filter(item => item.length>4)
-    console.log(currentlyReadingBooks)
-
-    console.log(this.state.allBooks)
-  }*/
-  
-  
     render(){
       console.log(this.state.list,this.state.currentlyReadingList,this.state.wantToReadList,this.state.readList)
         return(

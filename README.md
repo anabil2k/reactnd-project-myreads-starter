@@ -2,11 +2,11 @@
 
 My Reads allows you to search for books using specific search terms, and enables you to locate the books into three shelves categorized as follows:
 
-Currently Reading
-Want to Read
-Read
+* Currently Reading
+* Want to Read
+* Read
 
-You can also updat your shelves by moving the books from shelf to another as you want
+You can also update your shelves by moving the books from shelf to another as you want
 
 ## How to run the project on your PC
 

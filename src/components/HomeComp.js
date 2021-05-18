@@ -34,8 +34,8 @@ const newBooks=this.state.list.map(items =>{
 
 
   //To ensure that every book would be in its correct shelf when opening the home page
-  async componentDidMount(){
-    try{
+ /* async componentDidMount(){
+     try{
       const books=await BooksAPI.getAll()
       const currentlyReadingBooks=books.filter((item) => item.shelf ==="currentlyReading")
     const wantToReadBooks=books.filter((item) => item.shelf==="wantToRead")
@@ -48,8 +48,25 @@ console.log(books,currentlyReadingBooks,wantToReadBooks,readBooks)
     }
     catch(error){
       console.log(error)
-    }
-  }
+    } 
+
+  }*/
+
+  componentDidMount(){
+    
+     BooksAPI.getAll().then((books)=>{
+     const currentlyReadingBooks=books.filter((item) => item.shelf ==="currentlyReading")
+   const wantToReadBooks=books.filter((item) => item.shelf==="wantToRead")
+   const readBooks=books.filter((item) => item.shelf==="read")
+   this.setState({list:books})
+   this.setState({currentlyReadingList:currentlyReadingBooks})
+   this.setState({wantToReadList:wantToReadBooks})
+   this.setState({readList:readBooks})
+console.log(books,currentlyReadingBooks,wantToReadBooks,readBooks)
+}
+)
+
+ }
 
     render(){
       console.log(this.state.list,this.state.currentlyReadingList,this.state.wantToReadList,this.state.readList)
